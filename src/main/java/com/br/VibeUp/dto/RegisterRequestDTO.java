@@ -1,10 +1,13 @@
 package com.br.VibeUp.dto;
 
+import java.util.Date;
+
 public record RegisterRequestDTO(
         String name,
+        String username,
         String email,
         String password,
-        Integer age,
-        Integer likes,
-        Boolean admin,
+        Date date_of_birth,
+        int likes,
+        boolean admin,
         String course) {}

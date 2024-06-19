@@ -24,9 +24,10 @@ public class UserService {
         return new UserDTO(
                 user.getId(),
                 user.getName(),
+                user.getUsername(),
                 user.getEmail(),
-                user.getAge(),
-                user.getAdmin(),
+                user.getDate_of_birth(),
+                user.isAdmin(),
                 user.getLikes(),
                 user.getCourse()
         );
