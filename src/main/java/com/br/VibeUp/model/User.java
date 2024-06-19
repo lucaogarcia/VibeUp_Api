@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -18,10 +20,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String name;
+    private String username;
     private String email;
     private String password;
-    private Integer age;
-    private Integer likes;
-    private Boolean admin;
+    private Date date_of_birth;
+    private int likes;
+    private boolean admin;
     private String course;
 }

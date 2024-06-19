@@ -1,12 +1,15 @@
 package com.br.VibeUp.dto;
 
 
+import java.util.Date;
+
 public record UserDTO(
         String id,
         String name,
+        String username,
         String email,
-        Integer age,
-        Boolean admin,
-        Integer likes,
+        Date date_of_birth,
+        boolean admin,
+        int likes,
         String course
 ){}
