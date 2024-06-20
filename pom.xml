@@ -60,11 +60,14 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+<<<<<<< HEAD
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk-s3</artifactId>
 			<version>1.12.470</version>
 		</dependency>
+=======
+>>>>>>> 7727549a27ae012491d9eeb442d8341d091ac308
 	</dependencies>
 
 	<build>
