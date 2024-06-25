@@ -31,9 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
-<<<<<<< HEAD
+
 
 #Propriedades
-application.properties
-=======
->>>>>>> 7727549a27ae012491d9eeb442d8341d091ac308
+src/main/resources/aws-config.properties

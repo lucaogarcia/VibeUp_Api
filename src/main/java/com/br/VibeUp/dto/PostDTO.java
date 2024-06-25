@@ -8,5 +8,6 @@ public record PostDTO(
         String name,
         int likes,
         Date dateOfPost,
-        String userId
+        String userId,
+        String fileUrl
 ){}

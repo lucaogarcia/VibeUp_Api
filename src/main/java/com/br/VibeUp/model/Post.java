@@ -22,6 +22,7 @@ public class Post {
     private String name;
     private int likes;
     private Date dateOfPost;
+    private String fileUrl;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

@@ -5,6 +5,7 @@ import com.br.VibeUp.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,14 +17,15 @@ public class PostController {
     private PostService postService;
 
     @GetMapping
-    public ResponseEntity<List<PostDTO>> getAllPosts() {
-        List<PostDTO> posts = postService.getAllPosts();
-        return ResponseEntity.ok(posts);
+    public List<PostDTO> getAllPosts() {
+        return postService.getAllPosts();
     }
 
     @PostMapping("/{username}/createPost")
-    public ResponseEntity<PostDTO> createPost(@PathVariable String username, @RequestBody PostDTO postDTO) {
-        PostDTO newPost = postService.createPost(username, postDTO);
+    public ResponseEntity<PostDTO> createPost(@PathVariable String username,
+                                              @RequestPart("post") PostDTO postDTO,
+                                              @RequestPart("file") MultipartFile file) {
+        PostDTO newPost = postService.createPost(username, postDTO, file);
         return ResponseEntity.ok(newPost);
     }
 }
