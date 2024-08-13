@@ -40,7 +40,6 @@ public class PostService {
         post.setDateOfPost(new Date());
         post.setUser(user);
 
-        // Upload file to S3 and set the file URL
         try {
             String fileUrl = s3Service.uploadFile(file);
             post.setFileUrl(fileUrl);
