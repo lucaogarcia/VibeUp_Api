@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/athletics")
 @CrossOrigin
+@RequestMapping("/athletics")
 public class AthleticController {
 
     @Autowired
@@ -23,13 +23,12 @@ public class AthleticController {
 
     @PostMapping("/create")
     public ResponseEntity<AthleticDTO> createAthletic(@RequestBody AthleticDTO athleticDTO) {
-        AthleticDTO newAthletic = athleticService.createAthletic(athleticDTO);
-        return ResponseEntity.ok(newAthletic);
+        AthleticDTO createdAthletic = athleticService.createAthletic(athleticDTO);
+        return ResponseEntity.ok(createdAthletic);
     }
 
-    @PutMapping("/incrementScore")
-    public ResponseEntity<Void> incrementScore(@RequestParam String name) {
-        athleticService.incrementScore(name);
-        return ResponseEntity.ok().build();
+    @GetMapping("/ranked")
+    public List<AthleticDTO> getRankedAthletics() {
+        return athleticService.getRankedAthletics();
     }
 }
