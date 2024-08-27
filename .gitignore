@@ -35,3 +35,5 @@ build/
 
 #Propriedades
 src/main/resources/aws-config.properties
+firebase.txt
+src/main/resources/firebase-config.json

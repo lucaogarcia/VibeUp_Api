@@ -5,17 +5,24 @@ import com.br.VibeUp.model.Post;
 import com.br.VibeUp.model.User;
 import com.br.VibeUp.repositories.PostRepository;
 import com.br.VibeUp.repositories.UserRepository;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.cloud.StorageClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class PostService {
+
+    @Autowired
+    private FirebaseApp firebaseApp;
 
     @Autowired
     private PostRepository postRepository;
@@ -23,16 +30,13 @@ public class PostService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private S3Service s3Service;
+    @Value("${firebase.bucket.name}")
+    private String bucketName;
 
-    public List<PostDTO> getAllPosts() {
-        return postRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
-    }
-
-    public PostDTO createPost(String username, PostDTO postDTO, MultipartFile file) {
+    public PostDTO createPost(String username, PostDTO postDTO, MultipartFile imageFile) throws IOException {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
         Post post = new Post();
         post.setDescription(postDTO.description());
         post.setName(postDTO.name());
@@ -40,15 +44,23 @@ public class PostService {
         post.setDateOfPost(new Date());
         post.setUser(user);
 
-        try {
-            String fileUrl = s3Service.uploadFile(file);
-            post.setFileUrl(fileUrl);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to upload file", e);
-        }
+        String imageUrl = uploadImageToFirebase(imageFile);
+        post.setFileUrl(imageUrl);
 
         post = postRepository.save(post);
         return convertToDTO(post);
+    }
+
+    public List<PostDTO> getAllPosts() {
+        return postRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    private String uploadImageToFirebase(MultipartFile imageFile) throws IOException {
+        String fileName = UUID.randomUUID() + "-" + imageFile.getOriginalFilename();
+        StorageClient.getInstance(firebaseApp).bucket(bucketName).create(fileName, imageFile.getInputStream(), imageFile.getContentType());
+        return "https://storage.googleapis.com/" + bucketName + "/" + fileName;
     }
 
     private PostDTO convertToDTO(Post post) {
@@ -59,7 +71,7 @@ public class PostService {
                 post.getLikes(),
                 post.getDateOfPost(),
                 post.getUser().getId(),
-                post.getFileUrl() // Include the file URL in the response
+                post.getFileUrl()
         );
     }
 }
