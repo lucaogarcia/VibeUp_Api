@@ -1,6 +1,7 @@
 package com.br.VibeUp.controller;
 
 import com.br.VibeUp.dto.AthleticDTO;
+import com.br.VibeUp.model.Athletic;
 import com.br.VibeUp.service.AthleticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +31,15 @@ public class AthleticController {
     @GetMapping("/ranked")
     public List<AthleticDTO> getRankedAthletics() {
         return athleticService.getRankedAthletics();
+    }
+
+    @DeleteMapping("/{id}/{title}")
+    public void deleteAthletic(@PathVariable String id, @PathVariable String name) {
+        athleticService.deleteAthletic(id, name);
+    }
+
+    @PutMapping("/{id}")
+    public Athletic updateAthletic(@PathVariable String id, @RequestBody Athletic updatedAthletic) {
+        return athleticService.updateAthletic(id, updatedAthletic);
     }
 }

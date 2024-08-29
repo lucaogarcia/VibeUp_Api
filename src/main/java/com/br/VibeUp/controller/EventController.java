@@ -1,6 +1,7 @@
 package com.br.VibeUp.controller;
 
 import com.br.VibeUp.dto.EventDTO;
+import com.br.VibeUp.model.Event;
 import com.br.VibeUp.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,4 +39,15 @@ public class EventController {
         List<EventDTO> events = eventService.getEventsByAthleticId(id);
         return ResponseEntity.ok(events);
     }
+
+    @DeleteMapping("/{id}/{title}")
+    public void deleteEvent(@PathVariable String id, @PathVariable String title) {
+        eventService.deleteEvent(id, title);
+    }
+
+    @PutMapping("/{id}")
+    public Event updateEvent(@PathVariable String id, @RequestBody Event updatedEvent) {
+        return eventService.updateEvent(id, updatedEvent);
+    }
+
 }

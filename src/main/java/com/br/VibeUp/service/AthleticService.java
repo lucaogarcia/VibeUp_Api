@@ -63,4 +63,17 @@ public class AthleticService {
                 athletic.getScore()
         );
     }
+
+    public void deleteAthletic(String id, String name) {
+        Athletic athletic = (Athletic) athleticRepository.findByIdAndName(id, name)
+                .orElseThrow(() -> new RuntimeException("Athletic not found"));
+        athleticRepository.delete(athletic);
+    }
+
+    public Athletic updateAthletic(String id, Athletic updatedAthletic) {
+        Athletic athletic = athleticRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Athletic not found"));
+        athletic.setName(updatedAthletic.getName());
+        return athleticRepository.save(athletic);
+    }
 }

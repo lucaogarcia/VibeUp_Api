@@ -76,4 +76,27 @@ public class EventService {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
+
+    public void deleteEvent(String id, String title) {
+        Event event = (Event) eventRepository.findByIdAndTitle(id, title)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
+        eventRepository.delete(event);
+    }
+
+    public Event updateEvent(String id, Event updatedEvent) {
+        Event event = eventRepository.findById(String.valueOf(id))
+                .orElseThrow(() -> new RuntimeException("Event not found"));
+        event.setTitle(updatedEvent.getTitle());
+        event.setDescription(updatedEvent.getDescription());
+        event.setSubtitle(updatedEvent.getSubtitle());
+        event.setDate(updatedEvent.getDate());
+        event.setTimeStart(updatedEvent.getTimeStart());
+        event.setTimeEnd(updatedEvent.getTimeEnd());
+        event.setDescription(updatedEvent.getDescription());
+        event.setAddress(updatedEvent.getAddress());
+        event.setPrice(updatedEvent.getPrice());
+        event.setQuantity(updatedEvent.getQuantity());
+        event.setSoldTickets(updatedEvent.getSoldTickets());
+        return eventRepository.save(event);
+    }
 }
