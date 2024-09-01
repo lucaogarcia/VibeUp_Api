@@ -14,5 +14,6 @@ public record EventDTO(
         double price,
         String athleticId,
         int quantity,
-        int soldTickets
+        int soldTickets,
+        String fileUrl
 ) {}

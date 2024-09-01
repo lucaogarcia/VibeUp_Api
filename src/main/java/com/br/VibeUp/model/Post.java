@@ -18,8 +18,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private String description;
-    private String name;
+    private String title;
     private int likes;
     private Date dateOfPost;
     private String fileUrl;

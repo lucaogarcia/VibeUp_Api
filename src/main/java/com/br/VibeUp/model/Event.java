@@ -26,6 +26,7 @@ public class Event {
     private String description;
     private String address;
     private double price;
+    private String fileUrl;
 
     @ManyToOne
     @JoinColumn(name = "athletic_id")

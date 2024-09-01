@@ -4,5 +4,6 @@ public record AthleticDTO(
         String id,
         String name,
         int rank,
-        int score
+        int score,
+        String fileUrl
 ) {}

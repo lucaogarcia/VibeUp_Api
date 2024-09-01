@@ -8,6 +8,7 @@ import com.br.VibeUp.repositories.AthleticRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ public class EventService {
         return eventRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public EventDTO createEvent(EventDTO eventDTO, String athleticName) {
+    public EventDTO createEvent(EventDTO eventDTO, String athleticName) throws IOException {
         Athletic athletic = athleticRepository.findByName(athleticName)
                 .orElseThrow(() -> new RuntimeException("Athletic not found"));
 
@@ -37,6 +38,7 @@ public class EventService {
         event.setDescription(eventDTO.description());
         event.setAddress(eventDTO.address());
         event.setPrice(eventDTO.price());
+        event.setFileUrl(eventDTO.fileUrl());
         event.setAthletic(athletic);
         event.setQuantity(eventDTO.quantity());
         event.setSoldTickets(eventDTO.soldTickets());
@@ -58,7 +60,8 @@ public class EventService {
                 event.getPrice(),
                 event.getAthletic().getId(),
                 event.getQuantity(),
-                event.getSoldTickets()
+                event.getSoldTickets(),
+                event.getFileUrl()
         );
     }
 
@@ -92,11 +95,11 @@ public class EventService {
         event.setDate(updatedEvent.getDate());
         event.setTimeStart(updatedEvent.getTimeStart());
         event.setTimeEnd(updatedEvent.getTimeEnd());
-        event.setDescription(updatedEvent.getDescription());
         event.setAddress(updatedEvent.getAddress());
         event.setPrice(updatedEvent.getPrice());
         event.setQuantity(updatedEvent.getQuantity());
         event.setSoldTickets(updatedEvent.getSoldTickets());
+        event.setFileUrl(updatedEvent.getFileUrl());
         return eventRepository.save(event);
     }
 }

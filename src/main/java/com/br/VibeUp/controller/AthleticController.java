@@ -22,18 +22,25 @@ public class AthleticController {
         return athleticService.getAllAthletics();
     }
 
-    @PostMapping("/create")
+    @PostMapping("/createAthletic")
     public ResponseEntity<AthleticDTO> createAthletic(@RequestBody AthleticDTO athleticDTO) {
-        AthleticDTO createdAthletic = athleticService.createAthletic(athleticDTO);
-        return ResponseEntity.ok(createdAthletic);
+        AthleticDTO newAthletic = athleticService.createAthletic(athleticDTO);
+        return ResponseEntity.ok(newAthletic);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AthleticDTO> getAthletic(@PathVariable String id) {
+        AthleticDTO athleticDTO = athleticService.getAthleticWithImage(id);
+        return ResponseEntity.ok(athleticDTO);
+    }
+
 
     @GetMapping("/ranked")
     public List<AthleticDTO> getRankedAthletics() {
         return athleticService.getRankedAthletics();
     }
 
-    @DeleteMapping("/{id}/{title}")
+    @DeleteMapping("/{id}/{name}")
     public void deleteAthletic(@PathVariable String id, @PathVariable String name) {
         athleticService.deleteAthletic(id, name);
     }

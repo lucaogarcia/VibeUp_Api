@@ -15,6 +15,7 @@ public class AthleticService {
     @Autowired
     private AthleticRepository athleticRepository;
 
+
     public List<AthleticDTO> getAllAthletics() {
         return athleticRepository.findAll().stream()
                 .map(this::convertToDTO)
@@ -24,8 +25,29 @@ public class AthleticService {
     public AthleticDTO createAthletic(AthleticDTO athleticDTO) {
         Athletic athletic = new Athletic();
         athletic.setName(athleticDTO.name());
+        athletic.setRank(athleticDTO.rank());
+        athletic.setScore(athleticDTO.score());
+        athletic.setFileUrl(athleticDTO.fileUrl());
 
-        athleticRepository.save(athletic);
+        athletic = athleticRepository.save(athletic);
+        return convertToDTO(athletic);
+    }
+
+
+    public AthleticDTO convertToDTO(Athletic athletic) {
+        return new AthleticDTO(
+                athletic.getId(),
+                athletic.getName(),
+                athletic.getRank(),
+                athletic.getScore(),
+                athletic.getFileUrl()
+        );
+    }
+
+
+    public AthleticDTO getAthleticWithImage(String athleticId) {
+        Athletic athletic = athleticRepository.findById(athleticId)
+                .orElseThrow(() -> new RuntimeException("Athletic not found"));
         return convertToDTO(athletic);
     }
 
@@ -55,15 +77,6 @@ public class AthleticService {
         }
     }
 
-    private AthleticDTO convertToDTO(Athletic athletic) {
-        return new AthleticDTO(
-                athletic.getId(),
-                athletic.getName(),
-                athletic.getRank(),
-                athletic.getScore()
-        );
-    }
-
     public void deleteAthletic(String id, String name) {
         Athletic athletic = (Athletic) athleticRepository.findByIdAndName(id, name)
                 .orElseThrow(() -> new RuntimeException("Athletic not found"));
@@ -74,6 +87,8 @@ public class AthleticService {
         Athletic athletic = athleticRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Athletic not found"));
         athletic.setName(updatedAthletic.getName());
+        athletic.setFileUrl(updatedAthletic.getFileUrl());
         return athleticRepository.save(athletic);
     }
 }
+

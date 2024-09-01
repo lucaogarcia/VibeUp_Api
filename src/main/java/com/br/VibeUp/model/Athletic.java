@@ -19,6 +19,7 @@ public class Athletic {
     private String name;
     private int rank;
     private int score;
+    private String fileUrl;
 
     public void incrementScore() {
         this.score++;
