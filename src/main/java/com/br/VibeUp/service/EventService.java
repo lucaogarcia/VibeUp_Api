@@ -102,4 +102,10 @@ public class EventService {
         event.setFileUrl(updatedEvent.getFileUrl());
         return eventRepository.save(event);
     }
+
+    public EventDTO getEventById(String id) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
+        return convertToDTO(event);
+    }
 }

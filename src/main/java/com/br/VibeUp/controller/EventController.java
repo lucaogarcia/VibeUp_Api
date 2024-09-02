@@ -30,6 +30,12 @@ public class EventController {
         return ResponseEntity.ok(newEvent);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<EventDTO> getOneEvent(@PathVariable String id) {
+        EventDTO eventDTO = eventService.getEventById(id);
+        return ResponseEntity.ok(eventDTO);
+    }
+
     @GetMapping("/remainingTickets/{id}")
     public ResponseEntity<Integer> getRemainingTickets(@PathVariable String id) {
         int remainingTickets = eventService.getRemainingTickets(id);
